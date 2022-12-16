@@ -73,9 +73,9 @@ while True:
 
         # The destination coordinates (mm) for the corners (need to change according to the game board size)
         dst_tl = [0, 0]
-        dst_tr = [1000, 0]
-        dst_bl = [0, 1000]
-        dst_br = [1000, 1000]
+        dst_tr = [500, 0]
+        dst_bl = [0, 500]
+        dst_br = [500, 500]
         dst_pts = np.array([dst_tl, dst_tr, dst_bl, dst_br]).reshape(-1, 1, 2)
         # print(src_pts)
 
