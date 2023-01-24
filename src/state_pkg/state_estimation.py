@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import math
+from initialize import calib_matrix
 
 # Initial parameters
 board_size = [1000, 1000]  # [length, height] of board in mm
@@ -39,10 +40,13 @@ def get_uncalibrated_param(corners, ids):
             car_pos = (cX, cY)  # Position of JetBot on uncalibrated image
             dx = topRight[0] - topLeft[0]  # dx and dy forms the orientation vector
             dy = topRight[1] - topLeft[1]
+        if markerID == 5:
+            desired_pos = (cX, cY)
 
     src_pts = np.array([board_tl, board_tr, board_bl, board_br]).reshape(-1, 1, 2)
 
-    return src_pts, car_pos, [dx, dy]
+    return src_pts, car_pos, [dx, dy], desired_pos
+
 
 def get_state(corners, ids, board_size):
     # src_pts are the location of the corners of the board: np.array([tl, tr, bl, br]).reshape(-1, 1, 2)
@@ -51,7 +55,7 @@ def get_state(corners, ids, board_size):
     # orient_vector_uncalib is the vector [dx, dy] that represents the orientation of the JetBot
     # returns calibrated position (size(2,) np array) and orientation (float) of JetBot
 
-    src_pts, pos_uncalib, orient_vector_uncalib = get_uncalibrated_param(corners, ids)
+    src_pts, pos_uncalib, orient_vector_uncalib, desired_pos_uncalib = get_uncalibrated_param(corners, ids)
     src_pts = src_pts.reshape(-1, 1, 2)
 
     # Construct dst_pts, the destination coordinate of where the src_pts are after the Homography transformation
@@ -79,6 +83,18 @@ def get_state(corners, ids, board_size):
 
     return car_pos_calib[0:2].reshape((2,)), theta_calib
 
+
+def get_desired_pos(corners, ids, board_size):
+    # corners and ids are from ArUco tag detection
+    # board_size is a list [length, height] of the board
+    # returns the calibrated desired position
+
+    H = calib_matrix(corners, ids, board_size)
+    src_pts, pos_uncalib, orient_vector_uncalib, desired_pos_uncalib = get_uncalibrated_param(corners, ids)
+
+    desired_pos_calib = H @ desired_pos_uncalib
+
+    return desired_pos_calib[0:2].reshape((2,))
 
 # Capture video
 cap = cv2.VideoCapture(0)

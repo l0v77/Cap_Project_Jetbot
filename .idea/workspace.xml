@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="python pkg" />
+    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="python pkg">
+      <change afterPath="$PROJECT_DIR$/src/state_pkg/initialize.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/state_pkg/state_estimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/state_pkg/state_estimation.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
