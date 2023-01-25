@@ -50,11 +50,15 @@ def calib_matrix(corners, ids, board_size):
     return H
 
 
-def calib_frame(img, corners, ids, board_size):
+def calib_frame(img, board_size):
     # img is the camera captured img (video frame)
-    # corners and ids are from ArUco tags detection
-    # board_size is a list of [length, height] of the map
+    # board_size is a list [length, height] that represent the size of the map
     # returns the calibrated image
+
+    arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
+    arucoParams = cv2.aruco.DetectorParameters_create()
+    (corners, ids, rejected) = cv2.aruco.detectMarkers(img, arucoDict,
+                                                       parameters=arucoParams)
 
     H = calib_matrix(corners, ids, board_size)
 

@@ -49,10 +49,7 @@ def get_uncalibrated_param(corners, ids):
 
 
 def get_state(corners, ids, board_size):
-    # src_pts are the location of the corners of the board: np.array([tl, tr, bl, br]).reshape(-1, 1, 2)
     # board_size is a list of [length, height]
-    # pos_uncalib: [x, y] is the uncalibrated pixel coordinate of JetBot on the captured video
-    # orient_vector_uncalib is the vector [dx, dy] that represents the orientation of the JetBot
     # returns calibrated position (size(2,) np array) and orientation (float) of JetBot
 
     src_pts, pos_uncalib, orient_vector_uncalib, desired_pos_uncalib = get_uncalibrated_param(corners, ids)
@@ -92,6 +89,8 @@ def get_desired_pos(corners, ids, board_size):
     H = calib_matrix(corners, ids, board_size)
     src_pts, pos_uncalib, orient_vector_uncalib, desired_pos_uncalib = get_uncalibrated_param(corners, ids)
 
+    desired_pos_uncalib = np.array(desired_pos_uncalib)
+    desired_pos_uncalib = np.vstack((desired_pos_uncalib.reshape((2, 1)), [1]))
     desired_pos_calib = H @ desired_pos_uncalib
 
     return desired_pos_calib[0:2].reshape((2,))
