@@ -21,7 +21,7 @@ while True:
                                                        parameters=arucoParams)
 
     # Get corners of the ArUco markers and Plot
-    if len(corners) > 4:
+    if len(corners) >= 5:
         # flatten the ArUco IDs list
         ids = ids.flatten()
         # print(ids)
@@ -74,10 +74,18 @@ while True:
         # The destination coordinates (mm) for the corners (need to change according to the game board size)
         dst_tl = [0, 0]
         dst_tr = [500, 0]
-        dst_bl = [0, 500]
-        dst_br = [500, 500]
+        dst_bl = [0, 700]
+        dst_br = [500, 700]
         dst_pts = np.array([dst_tl, dst_tr, dst_bl, dst_br]).reshape(-1, 1, 2)
         # print(src_pts)
+
+        # test code
+        H, status = cv2.findHomography(src_pts, dst_pts)
+        # print(H)
+        # The size of the calibrated img (same as the coord of the br point)
+        size = dst_pts[-1, :]
+        dst_img = cv2.warpPerspective(frame, H, size.reshape((2,)))
+        cv2.imshow("Homography", dst_img)
 
         car_coord, car_orient = calibrate(frame, src_pts, dst_pts, np.array(car_pos), dx, dy)
 

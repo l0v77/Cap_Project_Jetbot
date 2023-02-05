@@ -17,12 +17,13 @@ def calibrate(img, src_pts, dst_pts, car_pos, dx, dy):
     car_pos = car_pos.reshape((2, 1))
     car_pos = np.vstack((car_pos, [1]))
     car_coord = H@car_pos
-    print(car_coord)
 
     # Calculate calibrated car orientation
     dist = np.linalg.norm([dx, dy])
     orient_uncalibrated = np.array([[dx/dist], [dy/dist], [0]])
     orient = H@orient_uncalibrated
     theta = math.atan2(orient[1], orient[0])
-    # print(theta)
+
+    # print(car_coord)
+    print(theta)
     return car_coord, theta
