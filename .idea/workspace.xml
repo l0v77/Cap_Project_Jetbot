@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="modified initialize">
-      <change afterPath="$PROJECT_DIR$/src/vision_pkg/detect_object/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vision_pkg/state/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vision_pkg/state/test code/__init__.py" afterDir="false" />
+    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="started pseudo code">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/detect_object_pkg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/detect_object_pkg/counter_and_capture_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/detect_object/counter_and_capture_camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state_pkg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state_pkg/initialize.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/initialize.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state_pkg/state_estimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state_pkg/test code/board_construct_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/test code/board_construct_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state_pkg/test code/calibration_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/test code/calibration_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +40,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\david\Documents\UCB\Cap_Project_Jetbot\src\vision_pkg\state" />
       <recent name="C:\Users\david\Documents\UCB\Cap_Project_Jetbot\src\vision_pkg" />
     </key>
   </component>
@@ -88,7 +81,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674605646559</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="started pseudo code">
+      <created>1675580605229</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1675580605232</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -107,6 +107,7 @@
     <MESSAGE value="python pkg" />
     <MESSAGE value="added initialize" />
     <MESSAGE value="modified initialize" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified initialize" />
+    <MESSAGE value="started pseudo code" />
+    <option name="LAST_COMMIT_MESSAGE" value="started pseudo code" />
   </component>
 </project>

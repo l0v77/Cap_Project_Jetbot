@@ -22,7 +22,7 @@ while True:
     ret, img = cap.read()
     (corners, ids, rejected) = cv2.aruco.detectMarkers(img, arucoDict,
                                                        parameters=arucoParams)
-    # cv2.imshow("not calibrated", img)
+    cv2.imshow("not calibrated", img)
     key = cv2.waitKey(1) & 0xFF
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
@@ -34,7 +34,8 @@ while True:
             # cv2.imshow("calibrated", calibrated_img)
             # cv2.waitKey(1000)
             break
-
+cv2.destroyAllWindows()
+print('obtained calibrated img')
 # NOTE: row correspond to y, col correspond to x
 A_star_map = generate_map(calibrated_img)
 
@@ -53,6 +54,7 @@ while True:
             end_pos = state_estimation.get_desired_pos_old(corners, ids, board_size)
             break
 
+print('start and end position found')
 # Now have A_star_map, start_pos, end_pos
 # TODO: feed A_star_map and start_pos, end_pos to generate path
 
@@ -63,10 +65,14 @@ while True:
     ret, img = cap.read()
 
     calibrated_frame = cv2.warpPerspective(img, homograph_matrix, np.array(board_size))
+    cv2.imshow("calibrated", calibrated_frame)
+    cv2.waitKey(1)
+
     (calib_corners, calib_ids, calib_rej) = cv2.aruco.detectMarkers(calibrated_frame, arucoDict,
                                                                     parameters=arucoParams)
-    calib_ids.flatten()
-    if 4 in calib_ids:
-        current_state = get_state(calib_corners, calib_ids, board_size)
+    if len(calib_corners) > 0:
+        calib_ids.flatten()
+        if 4 in calib_ids:
+            current_state = get_state(calib_corners, calib_ids, board_size)
 
     # TODO: call MPC

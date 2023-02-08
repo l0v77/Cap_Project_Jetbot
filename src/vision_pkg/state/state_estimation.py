@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import math
-from initialize import calib_matrix
+from src.vision_pkg.state.initialize import calib_matrix
 
 
 def get_uncalibrated_param(corners, ids):
@@ -66,7 +66,7 @@ def get_state_old(corners, ids, board_size):
     pos_uncalib = np.array(pos_uncalib)
     pos_uncalib = np.vstack((pos_uncalib.reshape((2, 1)), [1]))
     car_pos_calib = H @ pos_uncalib
-
+    car_pos_calib.flatten()
     # Calculate calibrated car orientation
     ox = orient_vector_uncalib[0]
     oy = orient_vector_uncalib[1]
@@ -74,7 +74,8 @@ def get_state_old(corners, ids, board_size):
     orient_vector_uncalib = np.array([[ox / dist], [oy / dist], [0]])
     vector_calib = H @ orient_vector_uncalib
     theta_calib = math.atan2(vector_calib[1], vector_calib[0])
-    state = np.array([car_pos_calib[0], board_size[1]-car_pos_calib[1], -theta_calib])
+
+    state = np.array([car_pos_calib[0], board_size[1]-car_pos_calib[1], -theta_calib], dtype='double')
     return state
 
 
