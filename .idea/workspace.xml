@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="started pseudo code">
+    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="improved main.py">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +88,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675580605232</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="improved main.py">
+      <created>1675890535130</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1675890535130</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,7 +103,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -108,6 +121,7 @@
     <MESSAGE value="added initialize" />
     <MESSAGE value="modified initialize" />
     <MESSAGE value="started pseudo code" />
-    <option name="LAST_COMMIT_MESSAGE" value="started pseudo code" />
+    <MESSAGE value="improved main.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved main.py" />
   </component>
 </project>

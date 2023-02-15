@@ -10,7 +10,7 @@ from vision_pkg.detect_object.Camera import generate_map
 # Measure the board size [length, height] in mm
 # length is the distance from top left to top right (tag 0 to tag 3)
 # height is the distance from top left to bottom left (tag 0 to tag 1)
-board_size = [500, 500]
+board_size = [320, 440]
 
 cap = cv2.VideoCapture(0)
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
@@ -74,5 +74,6 @@ while True:
         calib_ids.flatten()
         if 4 in calib_ids:
             current_state = get_state(calib_corners, calib_ids, board_size)
+            print(current_state)
 
     # TODO: call MPC

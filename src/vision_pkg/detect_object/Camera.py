@@ -11,20 +11,40 @@ def generate_map(img):
     # Need to input the calibrated image of the map with obstacles on it
     # Need to input the board_size: list of [length, height]
 
-    # TODO: cv2.inRange (1st BGR2HSV, find the range of color that is obstacle, then call the inRange function)
-
     board_size = [img.shape[1], img.shape[0]]
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
-    A_star = np.ones((board_size[1], board_size[0]), dtype=int)
-    contours, hierarchy = cv2.findContours(th1.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-    for c in contours:
-        x, y, w, h = cv2.boundingRect(c)
-        # plt.imshow(cv2.rectangle(th1, (x, y), (x+w, y+h), (100, 100, 255), 10))
-        # plt.title('Bounding Rectangle')
-        # plt.show()
-        # print((x, y), (x, y+h), (x+w, y), (x+w, y+h))
-        A_star[y:y+h, x:x+w] = np.zeros((h, w), dtype=int)
+
+    # #################################### New Code, use HSV
+    # HSV parameters
+    hsv_low_bound = np.array([0, 0, 0])
+    hsv_up_bound = np.array([180, 255, 255])
+
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    mask = cv2.inRange(img, hsv_low_bound, hsv_up_bound)
+    # cv2.imshow('mask', mask)
+    # cv2.waitKey(2000)
+
+    # Turn img into matrix
+    A_star = np.asarray(mask)
+    A_star = A_star/255
+    A_star.astype(np.uint8)
+    # print(type(A_star))
+    # print(A_star.shape)
+    # print(A_star[0:20, 0:20])
+    ############################################################
+
+    # ############################### Old Code, using contours
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2GREY)
+    # ret, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    # A_star = np.ones((board_size[1], board_size[0]), dtype=int)
+    # contours, hierarchy = cv2.findContours(th1.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+    # for c in contours:
+    #     x, y, w, h = cv2.boundingRect(c)
+    #     # plt.imshow(cv2.rectangle(th1, (x, y), (x+w, y+h), (100, 100, 255), 10))
+    #     # plt.title('Bounding Rectangle')
+    #     # plt.show()
+    #     # print((x, y), (x, y+h), (x+w, y), (x+w, y+h))
+    #     A_star[y:y+h, x:x+w] = np.zeros((h, w), dtype=int)
+    ####################################################
 
     # flip the matrix upside down to make it in the right coordinate
     A_star = np.flipud(A_star)
