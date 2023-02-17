@@ -90,24 +90,6 @@ def solve_cftoc(N, Ts, nx, nu, r_R, r_L, L, w_max, a_max, x0, xf):
   model.constarint8 = pyo.Constraint(model.tidx, rule=lambda model, t: model.u[1, t] >= -w_max 
                                     if t <= N - 1 else pyo.Constraint.Skip)
 
-  # model.constarint9 = pyo.Constraint(model.uidx, rule=lambda model, i: model.u[i, 0] == u0[i])
-
-  # desired states 
-  # model.constarint10 = pyo.Constraint(model.xidx, rule=lambda model, i: model.x[i, N] == xf[i])
-
-  # acceleration constraints
-  # model.constarint11 = pyo.Constraint(model.tidx, rule=lambda model, t: model.u[0, t+1] - model.u[0, t] <= a_max
-  #                                   if t <= N - 1 else pyo.Constraint.Skip)
-
-  # model.constarint12 = pyo.Constraint(model.tidx, rule=lambda model, t: model.u[0, t+1] - model.u[0, t] >= -a_max
-  #                                   if t <= N - 1 else pyo.Constraint.Skip)
-
-  # model.constarint13 = pyo.Constraint(model.tidx, rule=lambda model, t: model.u[1, t+1] - model.u[1, t] <= a_max
-  #                                   if t <= N - 1 else pyo.Constraint.Skip)
-
-  # model.constarint14 = pyo.Constraint(model.tidx, rule=lambda model, t: model.u[1, t+1] - model.u[1, t] >= -a_max 
-  #                                   if t <= N - 1 else pyo.Constraint.Skip)
-
   # call non-linear solver:
   results = pyo.SolverFactory('ipopt').solve(model)
 
