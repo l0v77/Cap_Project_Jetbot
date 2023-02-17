@@ -12,6 +12,9 @@ from vision_pkg.detect_object.Camera import generate_map
 # height is the distance from top left to bottom left (tag 0 to tag 1)
 board_size = [320, 440]
 
+# speed to PWM ratio (PWM/speed)
+ratio = 1/0.94
+
 cap = cv2.VideoCapture(0)
 arucoDict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
 arucoParams = cv2.aruco.DetectorParameters_create()
@@ -65,7 +68,7 @@ while True:
     ret, img = cap.read()
 
     calibrated_frame = cv2.warpPerspective(img, homograph_matrix, np.array(board_size))
-    cv2.imshow("calibrated", calibrated_frame)
+    cv2.imshow("calibrated", cv2.resize(calibrated_frame, (1000, int(1000/board_size[1]*board_size[0]))))
     cv2.waitKey(1)
 
     (calib_corners, calib_ids, calib_rej) = cv2.aruco.detectMarkers(calibrated_frame, arucoDict,

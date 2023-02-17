@@ -15,13 +15,13 @@ def generate_map(img):
 
     # #################################### New Code, use HSV
     # HSV parameters
-    hsv_low_bound = np.array([0, 0, 0])
-    hsv_up_bound = np.array([180, 255, 255])
+    hsv_low_bound = np.array([0, 4, 184])
+    hsv_up_bound = np.array([50, 79, 255])
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(img, hsv_low_bound, hsv_up_bound)
-    # cv2.imshow('mask', mask)
-    # cv2.waitKey(2000)
+    cv2.imshow('mask', mask)
+    cv2.waitKey(1000)
 
     # Turn img into matrix
     A_star = np.asarray(mask)
