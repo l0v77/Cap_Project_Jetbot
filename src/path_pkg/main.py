@@ -1,18 +1,17 @@
 # encoding=utf-8
 import math
 # init map size
-width = 100
-height = 100
-path = []
-def block(mymap):
-    print("Please enter the coordinates of the obstacle, ending with -1")
-    while True:
-        x = int(input("Please enter the x:")) - 1
-        y = int(input("Please enter the y:")) - 1
-        if x >= 0 and x < width and y >= 0 and y < height:
-            mymap[x][y] = 1
-        else:
-            break
+# width = 100
+# height = 100
+# def block(mymap):
+#     print("Please enter the coordinates of the obstacle, ending with -1")
+#     while True:
+#         x = int(input("Please enter the x:")) - 1
+#         y = int(input("Please enter the y:")) - 1
+#         if x >= 0 and x < width and y >= 0 and y < height:
+#             mymap[x][y] = 1
+#         else:
+#             break
 
 def getDistance(now_node, e_node):
     if e_node.x == now_node.x or e_node.y == now_node.y:
@@ -30,6 +29,10 @@ def ans_path(s_node, G):
     pass
 
 def A_star_algorithm(mymap, s_node, e_node):
+    path = []
+    width = len(mymap[0])
+    height = len(mymap)
+
     s_node.h = getDistance(s_node, e_node)
     s_node.get_f()  # init start node and get f
     open = [s_node]  # open table
@@ -142,7 +145,7 @@ def A_star_algorithm(mymap, s_node, e_node):
                         G.append(new_search_node)
 
         M.clear()
-    print("can't find path！")
+    print("can't find path")
     return
 
 class node:
@@ -161,28 +164,28 @@ class node:
         print("(%d,%d),f=%f" % (self.x, self.y, self.f))  # print info
         return
 
-if __name__=="__main__":
-    mymap = []
-    # init mymap width*height and fill 0
-    for i in range(0, width):
-        mymap.append(height * [0])
-    block(mymap) # init block
-    print("The map is shown below:")
-    print(mymap)
-    sx = int(input("Please enter the start x:")) - 1
-    sy = int(input("Please enter the start y:")) - 1
-    s_node = node(sx, sy, None)
-    s_node.fa = s_node
-    ex = int(input("Please enter the end x:")) - 1
-    ey = int(input("Please enter the end y:")) - 1
-    e_node = node(ex, ey, None)
+# if __name__=="__main__":
+#     # mymap = []
+#     # # init mymap width*height and fill 0
+#     # for i in range(0, width):
+#     #     mymap.append(height * [0])
+#     # block(mymap) # init block
+#     # print("The map is shown below:")
+#     # print(mymap)
+#     # sx = int(input("Please enter the start x:")) - 1
+#     # sy = int(input("Please enter the start y:")) - 1
+#     # s_node = node(sx, sy, None)
+#     # s_node.fa = s_node
+#     # ex = int(input("Please enter the end x:")) - 1
+#     # ey = int(input("Please enter the end y:")) - 1
+#     # e_node = node(ex, ey, None)
 
-    A_star_algorithm(mymap, s_node, e_node)
-    # print ans
-    for i in range(1, len(path) + 1):
-        if i == len(path):
-            print("({0},{1})".format(path[-i].x, path[-i].y), end = "")
-        else:
-            print("({0},{1})->".format(path[-i].x, path[-i].y), end = "")
+#     A_star_algorithm(mymap, s_node, e_node)
+#     # print ans
+#     for i in range(1, len(path) + 1):
+#         if i == len(path):
+#             print("({0},{1})".format(path[-i].x, path[-i].y), end = "")
+#         else:
+#             print("({0},{1})->".format(path[-i].x, path[-i].y), end = "")
     
-    # k=input("\npress close to exit")
+#     # k=input("\npress close to exit")
