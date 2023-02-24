@@ -74,8 +74,11 @@ def get_state_old(corners, ids, board_size):
     orient_vector_uncalib = np.array([[ox / dist], [oy / dist], [0]])
     vector_calib = H @ orient_vector_uncalib
     theta_calib = math.atan2(vector_calib[1], vector_calib[0])
-
-    state = np.array([car_pos_calib[0], board_size[1]-car_pos_calib[1], -theta_calib], dtype='double')
+    # print(car_pos_calib.shape)
+    car_pos_calib = car_pos_calib.reshape((3,))
+    car_pos_calib = car_pos_calib.astype(np.uint8)
+    state = np.array([car_pos_calib[0], board_size[1]-car_pos_calib[1], -theta_calib])
+    print('init state', state)
     return state
 
 
@@ -90,7 +93,9 @@ def get_desired_pos_old(corners, ids, board_size):
     desired_pos_uncalib = np.array(desired_pos_uncalib)
     desired_pos_uncalib = np.vstack((desired_pos_uncalib.reshape((2, 1)), [1]))
     desired_pos_calib = H @ desired_pos_uncalib
-    pos = np.array([desired_pos_calib[0], board_size[1]-desired_pos_calib[1]])
+    desired_pos_calib = desired_pos_calib.reshape((3,))
+    pos = np.array([desired_pos_calib[0], board_size[1]-desired_pos_calib[1]], dtype=np.uint8)
+    print('desired pos', pos)
     return pos
 
 
