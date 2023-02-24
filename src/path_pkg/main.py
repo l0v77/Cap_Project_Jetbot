@@ -29,6 +29,7 @@ def ans_path(s_node, G):
     pass
 
 def A_star_algorithm(mymap, sx, sy, ex, ey):
+    mymap = np.ndarray.tolist()
     s_node = node(sx, sy, None)
     s_node.fa = s_node
     e_node = node(ex, ey, None)
