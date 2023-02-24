@@ -6,6 +6,8 @@ from vision_pkg.state import state_estimation
 from vision_pkg.state.state_estimation import get_state
 from vision_pkg.detect_object.Camera import generate_map
 
+from control_pkg.cftoc import solve_cftoc
+from control_pkg.heading_angle_generator import heading_angle_generator
 
 # Measure the board size [length, height] in mm
 # length is the distance from top left to top right (tag 0 to tag 3)
@@ -64,6 +66,12 @@ print('start and end position found')
 
 # Run MPC
 current_state = start_state
+
+optimal_path = heading_angle_generator(path, current_state[2])
+
+M = 0; # Counter
+Max_Interation = np.shape(optimal_path)
+
 while True:
     ret, img = cap.read()
 
@@ -80,3 +88,9 @@ while True:
             print(current_state)
 
     # TODO: call MPC
+
+    xf = optimal_path[M + 1] # For every iteration, the terminal states become the next optimal states in the optimal path
+
+    M += 1
+
+    [omega_L_opt, omega_R_opt] = solve_cftoc(current_state, xf)

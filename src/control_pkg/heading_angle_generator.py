@@ -1,15 +1,15 @@
 import numpy as np
 
 def heading_angle_generator(optimal_x_y_path, theta_init):
+    
 
-    x_path_optimal = optimal_x_y_path()
-    y_path_optimal = optimal_x_y_path()
-
-    t = np.shape()
+    # optimal_x_y_path has unit of mm, convert to m first
+    x_path_optimal = optimal_x_y_path[:,0]
+    y_path_optimal = optimal_x_y_path[:,1]
 
     theta_path_optimal = [theta_init] # Initial Heading Angle 
 
-    for i in range(np.size(t) - 2):
+    for i in range(np.size(x_path_optimal) - 2):
         delta_y = y_path_optimal[i + 2] - y_path_optimal[i + 1]
         delta_x = x_path_optimal[i + 2] - x_path_optimal[i + 1]
         theta_path_optimal.append(np.arctan(delta_y/delta_x))
@@ -19,6 +19,6 @@ def heading_angle_generator(optimal_x_y_path, theta_init):
 
     theta_path_optimal.append(theta_f) # Construct Optimal Heading Angle
 
-    optimal_path = optimal_x_y_path.append() # Contruct Optimal Path which Includes Heading Angle
+    optimal_path = optimal_x_y_path.append(theta_path_optimal, axis = 1) # Contruct Optimal Path which Includes Heading Angle
 
     return optimal_path

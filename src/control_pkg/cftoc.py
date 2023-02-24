@@ -1,4 +1,3 @@
-import numpy as np
 import pyomo.environ as pyo
 
 def solve_cftoc(x0, xf):
