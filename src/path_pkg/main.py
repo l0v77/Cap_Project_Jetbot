@@ -1,5 +1,6 @@
 # encoding=utf-8
 import math
+import numpy as np
 # init map size
 # width = 100
 # height = 100
