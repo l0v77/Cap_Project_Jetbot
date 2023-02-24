@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="improve obstacle detection">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="PWM ratio">
+      <change beforePath="$PROJECT_DIR$/.idea/Cap_Project_Jetbot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Cap_Project_Jetbot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/path_pkg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/path_pkg/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/state/state_estimation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676444305599</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="PWM ratio">
+      <created>1676657552119</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676657552119</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -130,6 +140,7 @@
     <MESSAGE value="started pseudo code" />
     <MESSAGE value="improved main.py" />
     <MESSAGE value="improve obstacle detection" />
-    <option name="LAST_COMMIT_MESSAGE" value="improve obstacle detection" />
+    <MESSAGE value="PWM ratio" />
+    <option name="LAST_COMMIT_MESSAGE" value="PWM ratio" />
   </component>
 </project>
