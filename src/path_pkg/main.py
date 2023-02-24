@@ -28,7 +28,10 @@ def ans_path(s_node, G):
             item.res_out()
     pass
 
-def A_star_algorithm(mymap, s_node, e_node):
+def A_star_algorithm(mymap, sx, sy, ex, ey):
+    s_node = node(sx, sy, None)
+    s_node.fa = s_node
+    e_node = node(ex, ey, None)
     path = []
     width = len(mymap[0])
     height = len(mymap)
