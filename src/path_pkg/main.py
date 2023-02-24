@@ -22,7 +22,7 @@ def getDistance(now_node, e_node):
     # return math.sqrt(pow((e_node.x - now_node.x), 2) + pow((e_node.y - now_node.y), 2))
 
 def ans_path(s_node, G):
-    # print("path", end=":")
+    print("path", end=":")
 
     for item in G:
         if item.x == s_node.x and item.y == s_node.y:
@@ -75,10 +75,9 @@ def A_star_algorithm(mymap, sx, sy, ex, ey):
             res_path = []
             for i in range(1, len(path) + 1):
                 res_path.append([path[-i].x, path[-i].y])
-            # print(res_path)
-            print('np path type: ', type(np.array(res_path)))
-            return np.array(res_path)
-        # print('min_node.x', min_node.x)
+            print(res_path)
+            return res_path
+
         if min_node.x - 1 >= 0 and mymap[min_node.x - 1][min_node.y] == 0:  # up node
             new_node = node(min_node.x - 1, min_node.y, min_node)
             new_node.g = min_node.g + 1
