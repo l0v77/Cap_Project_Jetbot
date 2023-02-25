@@ -18,7 +18,8 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # Measure the board size [length, height] in mm
 # length is the distance from top left to top right (tag 0 to tag 3)
 # height is the distance from top left to bottom left (tag 0 to tag 1)
-board_size = [100, 100]
+board_size = [700, 700]
+A_star_board_size = [int(board_size[0]/10), int(board_size[1]/10)]
 
 # speed to PWM ratio (PWM/speed)
 ratio = 1/0.94
@@ -42,13 +43,14 @@ while True:
         ids = ids.flatten()
         if 0 in ids and 1 in ids and 2 in ids and 3 in ids:
             calibrated_img, homograph_matrix = calib_frame(img, corners, ids, board_size)
+            A_star_calib_img, A_star_H = calib_frame(img, corners, ids, A_star_board_size)
             # cv2.imshow("calibrated", calibrated_img)
             # cv2.waitKey(1000)
             break
 cv2.destroyAllWindows()
 print('obtained calibrated img')
 # NOTE: row correspond to y, col correspond to x
-A_star_map = generate_map(calibrated_img)
+A_star_map = generate_map(A_star_calib_img)
 
 # 2nd while: find start and end position:
 while True:
@@ -60,9 +62,9 @@ while True:
         ids = ids.flatten()
         can_see_corners = 0 in ids and 1 in ids and 2 in ids and 3 in ids
         if can_see_corners and 4 in ids and 5 in ids:
-            start_state = state_estimation.get_state_old(corners, ids, board_size)
+            start_state = state_estimation.get_state_old(corners, ids, A_star_board_size)
             start_pos = start_state[0:2]
-            end_pos = state_estimation.get_desired_pos_old(corners, ids, board_size)
+            end_pos = state_estimation.get_desired_pos_old(corners, ids, A_star_board_size)
             break
 
 print('start and end position found')
@@ -80,12 +82,15 @@ path = A_star_algorithm(A_star_map, start_coord[0], start_coord[1], end_coord[0]
 print('Found optimal path')
 
 # Run MPC
-current_state = start_state
+current_state = np.array([start_state[0]*10, start_state[1]*10, start_state[2]])
 
 optimal_path = heading_angle_generator(path, current_state[2])
 
+
+
 M = 0
-max_iteration = np.size(optimal_path[:, 0]) - 1
+
+max_iteration = (np.size(optimal_path[:, 0]) - 1)
 terminal_x = optimal_path[-1, 0]
 terminal_y = optimal_path[-1, 1]
 
@@ -95,7 +100,12 @@ while True:
 
     calibrated_frame = cv2.warpPerspective(img, homograph_matrix, np.array(board_size))
     cv2.imshow("calibrated", cv2.resize(calibrated_frame, (500, int(500/board_size[1]*board_size[0]))))
-    cv2.waitKey(1)
+    key = cv2.waitKey(1) & 0xFF
+    # if the `q` key was pressed, break from the loop
+    if key == ord("q"):
+        MESSAGE = json.dumps({"left": 0, "right": 0})
+        sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+        break
 
     (calib_corners, calib_ids, calib_rej) = cv2.aruco.detectMarkers(calibrated_frame, arucoDict,
                                                                     parameters=arucoParams)
@@ -103,34 +113,49 @@ while True:
         calib_ids.flatten()
         if 4 in calib_ids:
             current_state = get_state(calib_corners, calib_ids, board_size)
-            print(current_state)
+            # print(current_state)
 
     # TODO: call MPC
 
-    current_position = np.array([current_state[0]*0.01, current_state[1]*0.01, current_state[2]])
+    # current position are in meters and rads whereas current_state are in mm and rads
+    current_position = np.array([current_state[0]*0.001, current_state[1]*0.001, current_state[2]])
+
+    distance_throttle = (current_position[0] - optimal_path[M, 0])**2 + (current_position[1] - optimal_path[M, 1])**2
+
+    if distance_throttle < 0.05**2:
+        M += 1
+
+    if M == max_iteration:
+        MESSAGE = json.dumps({"left": 0, "right": 0})
+        sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+        print('Reached Max Iteration')
+        break
 
     [omega_L_opt, omega_R_opt] = solve_cftoc(current_position, optimal_path[M+1, :])
+    print('current position: ', current_position)
+    print('desired next point: ', optimal_path[M+1, :])
 
-    print(omega_R_opt, omega_L_opt)
+    # print(omega_R_opt, omega_L_opt)
     right = int(omega_R_opt*100)
     left = int(omega_L_opt*100)
 
     MESSAGE = json.dumps({"right": right, "left": left})
     sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
-    M += 1
 
-    if M == max_iteration:
-        MESSAGE = json.dumps({"left": 0, "right": 0})
-        sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
-        break
+    # if M == max_iteration:
+    #     MESSAGE = json.dumps({"left": 0, "right": 0})
+    #     sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+    #     print('Reached Max Iteration')
+    #     break
 
     terminal_norm = (current_state[0]*0.01 - terminal_x)**2 + (current_state[1]*0.01 - terminal_y)**2
 
-    if terminal_norm < 0.0016:
-        MESSAGE = json.dumps({"left": 0, "right": 0})
-        sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
-        break
+    # if terminal_norm < 0.01**2:
+    #     MESSAGE = json.dumps({"left": 0, "right": 0})
+    #     sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+    #     print('Reached Destination')
+    #     break
 
-    # toc = time.time()
+    # toc = time.time()q
     # time_loop = toc - tic
 

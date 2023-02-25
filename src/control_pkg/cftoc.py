@@ -8,7 +8,7 @@ def solve_cftoc(x0, xf):
   r_R = 0.03  # radius of right wheel [m]
   r_L = 0.03  # radius of left wheel [m]
   L   = 0.1   # shaft length [m]
-  w_max = 3.14  # maximum anular speed [rad/s]
+  w_max = 10  # maximum anular speed [rad/s]
 
   model = pyo.ConcreteModel()
   model.tidx = pyo.Set(initialize=range(0, N+1)) # length of finite optimization problem

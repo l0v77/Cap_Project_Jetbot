@@ -4,8 +4,10 @@ def heading_angle_generator(optimal_x_y_path, theta_init):
     
 
     # optimal_x_y_path has unit of cm, convert to m first
-    x_path_optimal = optimal_x_y_path[:, 0]*0.01
-    y_path_optimal = optimal_x_y_path[:, 1]*0.01
+    x_path_optimal = optimal_x_y_path[:, 1]*0.01
+    y_path_optimal = optimal_x_y_path[:, 0]*0.01
+
+    optimal_x_y_path_in_meters = np.hstack((x_path_optimal.reshape((-1, 1)), y_path_optimal.reshape((-1, 1))))
 
     theta_path_optimal = [theta_init] # Initial Heading Angle 
 
@@ -23,6 +25,6 @@ def heading_angle_generator(optimal_x_y_path, theta_init):
     print('theta shape ', np.array(theta_path_optimal).reshape((-1, 1)).shape)
 
     # optimal_path = optimal_x_y_path.append(theta_path_optimal, axis = 1) # Contruct Optimal Path which Includes Heading Angle
-    optimal_path = np.hstack((optimal_x_y_path, np.array(theta_path_optimal).reshape((-1, 1))))
+    optimal_path = np.hstack((optimal_x_y_path_in_meters, np.array(theta_path_optimal).reshape((-1, 1))))
 
     return optimal_path

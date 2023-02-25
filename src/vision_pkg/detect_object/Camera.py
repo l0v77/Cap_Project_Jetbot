@@ -15,14 +15,17 @@ def generate_map(img):
 
     # #################################### New Code, use HSV
     # HSV parameters
+    # pink phone case in dark lighting
+    hsv_low_bound = np.array([0, 23, 180])
+    hsv_up_bound = np.array([13, 169, 221])
 
     # # pink phone case
     # hsv_low_bound = np.array([0, 11, 161])
     # hsv_up_bound = np.array([26, 64, 180])
 
-    # dark blue file pkg
-    hsv_low_bound = np.array([82, 68, 146])
-    hsv_up_bound = np.array([135, 150, 210])
+    # # dark blue file pkg
+    # hsv_low_bound = np.array([82, 68, 146])
+    # hsv_up_bound = np.array([135, 150, 210])
 
     # # No constraint
     # hsv_low_bound = np.array([0, 0, 0])
