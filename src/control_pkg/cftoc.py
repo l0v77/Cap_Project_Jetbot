@@ -1,3 +1,4 @@
+import numpy as np
 import pyomo.environ as pyo
 
 def solve_cftoc(x0, xf):
@@ -7,7 +8,7 @@ def solve_cftoc(x0, xf):
   r_R = 0.03  # radius of right wheel [m]
   r_L = 0.03  # radius of left wheel [m]
   L   = 0.1   # shaft length [m]
-  w_max = 5  # maximum anular speed [rad/s] 
+  w_max = 3.14  # maximum anular speed [rad/s]
 
   model = pyo.ConcreteModel()
   model.tidx = pyo.Set(initialize=range(0, N+1)) # length of finite optimization problem
@@ -49,8 +50,10 @@ def solve_cftoc(x0, xf):
 
   # call non-linear solver:
   results = pyo.SolverFactory('ipopt').solve(model)
-  
-  omega_R_opt = model.u[0,0]
-  omega_L_opt = model.u[1,0]
+
+  uOpt = np.asarray([model.u[:, t]() for t in model.tidx]).T
+
+  omega_R_opt = uOpt[0, 0]
+  omega_L_opt = uOpt[1, 0]
 
   return [omega_L_opt, omega_R_opt]
