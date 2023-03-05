@@ -50,7 +50,8 @@ while True:
 cv2.destroyAllWindows()
 print('obtained calibrated img')
 # NOTE: row correspond to y, col correspond to x
-A_star_map = generate_map(A_star_calib_img)
+A_star_map, contour_pts = generate_map(A_star_calib_img)
+# print(A_star_map)
 
 # 2nd while: find start and end position:
 while True:
@@ -86,7 +87,8 @@ current_state = np.array([start_state[0]*10, start_state[1]*10, start_state[2]])
 
 optimal_path = heading_angle_generator(path, current_state[2])
 
-
+contour_pts = np.array(contour_pts)*10
+len_contour_pts = contour_pts.shape[0]
 
 M = 0
 
@@ -99,7 +101,25 @@ while True:
     ret, img = cap.read()
 
     calibrated_frame = cv2.warpPerspective(img, homograph_matrix, np.array(board_size))
-    cv2.imshow("calibrated", cv2.resize(calibrated_frame, (500, int(500/board_size[1]*board_size[0]))))
+    resized_frame = cv2.resize(calibrated_frame, (500, int(500/board_size[1]*board_size[0])))
+
+    # draw detected contour lines of the obstacle
+    for i in range(len_contour_pts):
+        cont_pt = contour_pts[i]
+        x_min = cont_pt[0]
+        x_max = cont_pt[1]
+        y_min = cont_pt[2]
+        y_max = cont_pt[3]
+        top_left = (cont_pt[0], cont_pt[2])
+        top_right = (cont_pt[1], cont_pt[2])
+        bottom_left = (cont_pt[0], cont_pt[3])
+        bottom_right = (cont_pt[1], cont_pt[3])
+        cv2.line(calibrated_frame, top_left, top_right, (0, 255, 0), 2)
+        cv2.line(calibrated_frame, top_right, bottom_right, (0, 255, 0), 2)
+        cv2.line(calibrated_frame, bottom_right, bottom_left, (0, 255, 0), 2)
+        cv2.line(calibrated_frame, bottom_left, top_left, (0, 255, 0), 2)
+
+    cv2.imshow("calibrated", calibrated_frame)
     key = cv2.waitKey(1) & 0xFF
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
@@ -122,8 +142,13 @@ while True:
 
     distance_throttle = (current_position[0] - optimal_path[M, 0])**2 + (current_position[1] - optimal_path[M, 1])**2
 
-    if distance_throttle < 0.05**2:
-        M += 1
+    if M < max_iteration - 1:
+        # threshold distance (in m)
+        if distance_throttle < 0.06**2:
+            M += 1
+    else:
+        if distance_throttle < 0.02**2:
+            M += 1
 
     if M == max_iteration:
         MESSAGE = json.dumps({"left": 0, "right": 0})
