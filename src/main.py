@@ -50,7 +50,7 @@ while True:
 cv2.destroyAllWindows()
 print('obtained calibrated img')
 # NOTE: row correspond to y, col correspond to x
-A_star_map, contour_pts = generate_map(A_star_calib_img)
+A_star_map = generate_map(A_star_calib_img)
 # print(A_star_map)
 
 # 2nd while: find start and end position:
@@ -75,9 +75,8 @@ print('start and end position found')
 # convert start_pos and end_pos from [x,y] to [row, col] to feed to A* algorithm
 start_coord = np.array([start_pos[1], start_pos[0]], dtype=np.uint8)
 end_coord = np.array([end_pos[1], end_pos[0]])
-# TODO: feed A_star_map and start_pos, end_pos to generate path
-# MESSAGE = json.dumps({"msg": "Feeding matrix to A star"})
-# sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+
+# feed A_star_map and start_pos, end_pos to generate path
 # print('start_coord[0]', start_coord[0])
 path = A_star_algorithm(A_star_map, start_coord[0], start_coord[1], end_coord[0], end_coord[1])
 print('Found optimal path')
@@ -86,9 +85,6 @@ print('Found optimal path')
 current_state = np.array([start_state[0]*10, start_state[1]*10, start_state[2]])
 
 optimal_path = heading_angle_generator(path, current_state[2])
-
-contour_pts = np.array(contour_pts)*10
-len_contour_pts = contour_pts.shape[0]
 
 M = 0
 
@@ -102,22 +98,6 @@ while True:
 
     calibrated_frame = cv2.warpPerspective(img, homograph_matrix, np.array(board_size))
     resized_frame = cv2.resize(calibrated_frame, (500, int(500/board_size[1]*board_size[0])))
-
-    # draw detected contour lines of the obstacle
-    for i in range(len_contour_pts):
-        cont_pt = contour_pts[i]
-        x_min = cont_pt[0]
-        x_max = cont_pt[1]
-        y_min = cont_pt[2]
-        y_max = cont_pt[3]
-        top_left = (cont_pt[0], cont_pt[2])
-        top_right = (cont_pt[1], cont_pt[2])
-        bottom_left = (cont_pt[0], cont_pt[3])
-        bottom_right = (cont_pt[1], cont_pt[3])
-        cv2.line(calibrated_frame, top_left, top_right, (0, 255, 0), 2)
-        cv2.line(calibrated_frame, top_right, bottom_right, (0, 255, 0), 2)
-        cv2.line(calibrated_frame, bottom_right, bottom_left, (0, 255, 0), 2)
-        cv2.line(calibrated_frame, bottom_left, top_left, (0, 255, 0), 2)
 
     cv2.imshow("calibrated", calibrated_frame)
     key = cv2.waitKey(1) & 0xFF
@@ -135,30 +115,38 @@ while True:
             current_state = get_state(calib_corners, calib_ids, board_size)
             # print(current_state)
 
-    # TODO: call MPC
-
     # current position are in meters and rads whereas current_state are in mm and rads
     current_position = np.array([current_state[0]*0.001, current_state[1]*0.001, current_state[2]])
 
-    distance_throttle = (current_position[0] - optimal_path[M, 0])**2 + (current_position[1] - optimal_path[M, 1])**2
+    # norm between current point and desired point. Used to determine if we can move to the next point
+    distance_throttle = (current_position[0] - optimal_path[M+1, 0])**2 + (current_position[1] - optimal_path[M+1, 1])**2
 
+    # Calling MPC
+    [omega_L_opt, omega_R_opt] = solve_cftoc(current_position, optimal_path[M+1, :])
+
+    # Debugging test
+    cv2.circle(calibrated_frame, (optimal_path[M+1, 1], optimal_path[M+1, 0]), 4, (0, 0, 255), -1)
+    print('Max Iteration: ', max_iteration)
+    print('M: ', M)
+    print('distance: ', np.sqrt(distance_throttle))
     if M < max_iteration - 1:
         # threshold distance (in m)
         if distance_throttle < 0.06**2:
             M += 1
     else:
-        if distance_throttle < 0.02**2:
+        if distance_throttle < 0.04**2:
+            # print('distance', np.sqrt(distance_throttle))
             M += 1
 
+    # Terminate when it reaches the final point
     if M == max_iteration:
         MESSAGE = json.dumps({"left": 0, "right": 0})
         sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
         print('Reached Max Iteration')
         break
 
-    [omega_L_opt, omega_R_opt] = solve_cftoc(current_position, optimal_path[M+1, :])
-    print('current position: ', current_position)
-    print('desired next point: ', optimal_path[M+1, :])
+    # print('current position: ', current_position)
+    # print('desired next point: ', optimal_path[M+1, :])
 
     # print(omega_R_opt, omega_L_opt)
     right = int(omega_R_opt*100)
@@ -166,21 +154,8 @@ while True:
 
     MESSAGE = json.dumps({"right": right, "left": left})
     sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+    # time.sleep(0.1)
 
-    # if M == max_iteration:
-    #     MESSAGE = json.dumps({"left": 0, "right": 0})
-    #     sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
-    #     print('Reached Max Iteration')
-    #     break
-
-    terminal_norm = (current_state[0]*0.01 - terminal_x)**2 + (current_state[1]*0.01 - terminal_y)**2
-
-    # if terminal_norm < 0.01**2:
-    #     MESSAGE = json.dumps({"left": 0, "right": 0})
-    #     sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
-    #     print('Reached Destination')
-    #     break
-
-    # toc = time.time()q
+    # toc = time.time()
     # time_loop = toc - tic
 

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="1st success (no obstacle)">
+    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="success with obstacles">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" afterDir="false" />
@@ -129,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677289379709</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="success with obstacles">
+      <created>1678045558273</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1678045558273</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,6 +168,7 @@
     <MESSAGE value="bug fix" />
     <MESSAGE value="1st trial" />
     <MESSAGE value="1st success (no obstacle)" />
-    <option name="LAST_COMMIT_MESSAGE" value="1st success (no obstacle)" />
+    <MESSAGE value="success with obstacles" />
+    <option name="LAST_COMMIT_MESSAGE" value="success with obstacles" />
   </component>
 </project>
