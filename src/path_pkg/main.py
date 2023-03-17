@@ -35,8 +35,10 @@ def A_star_algorithm(mymap, sx, sy, ex, ey):
     s_node.fa = s_node
     e_node = node(ex, ey, None)
     path = []
-    width = len(mymap[0])
-    height = len(mymap)
+    width = len(mymap)
+    height = len(mymap[0])
+    print('Calculating A_star')
+
 
     s_node.h = getDistance(s_node, e_node)
     s_node.get_f()  # init start node and get f
@@ -78,7 +80,6 @@ def A_star_algorithm(mymap, sx, sy, ex, ey):
             # print(res_path)
             print('np path type: ', type(np.array(res_path)))
             return np.array(res_path)
-        print('calculating A*')
         if min_node.x - 1 >= 0 and mymap[min_node.x - 1][min_node.y] == 0:  # up node
 
             new_node = node(min_node.x - 1, min_node.y, min_node)

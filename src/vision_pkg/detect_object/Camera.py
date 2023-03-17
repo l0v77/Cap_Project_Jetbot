@@ -19,13 +19,13 @@ def generate_map(img):
     # hsv_low_bound = np.array([151, 83, 176])
     # hsv_up_bound = np.array([180, 255, 255])
 
-    # pink sheet (dark light) 5102
-    hsv_low_bound = np.array([159, 75, 0])
-    hsv_up_bound = np.array([180, 255, 255])
+    # # pink sheet (dark light) 5102
+    # hsv_low_bound = np.array([156, 109, 0])
+    # hsv_up_bound = np.array([180, 255, 255])
 
-    # # pink phone case in dark lighting
-    # hsv_low_bound = np.array([0, 23, 180])
-    # hsv_up_bound = np.array([13, 169, 221])
+    # pink sheet (with light)
+    hsv_low_bound = np.array([127, 71, 0])
+    hsv_up_bound = np.array([180, 255, 255])
 
     # # pink phone case
     # hsv_low_bound = np.array([0, 19, 23])
@@ -48,7 +48,7 @@ def generate_map(img):
 
     # dilation to enlarge profiles
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    dilated_mask = cv2.dilate(mask, kernel, iterations=3)
+    dilated_mask = cv2.dilate(mask, kernel, iterations=9)
     cv2.imshow('mask', mask)
     cv2.imshow('dilated', dilated_mask)
     cv2.waitKey(1000)
@@ -99,9 +99,11 @@ def generate_map(img):
     # test_output = im.fromarray(A_star*255)
     # test_output.save('test_output.png')
 
-    return A_star
+    dilated_mask_bgr = cv2.cvtColor(dilated_mask, cv2.COLOR_GRAY2BGR)
 
-cap = cv2.VideoCpature(0)
-# Test code
-while True:
-    ret, frame = cap.read()
+    return A_star, dilated_mask_bgr
+
+# cap = cv2.VideoCapture(0)
+# # Test code
+# while True:
+#     ret, frame = cap.read()

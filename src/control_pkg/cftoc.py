@@ -1,7 +1,7 @@
 import numpy as np
 import pyomo.environ as pyo
 
-def solve_cftoc(x0, xf):
+def solve_cftoc(x0, xf, ul_prev, ur_prev):
 
   Ts = 0.1    # 10 samples per second
   N = 5       # length of horizon
@@ -20,7 +20,10 @@ def solve_cftoc(x0, xf):
   model.u = pyo.Var(model.uidx, model.tidx)
 
   # cost Function:
-  model.cost = pyo.Objective(expr = sum((model.x[0, t]-xf[0])**2 + (model.x[1, t]-xf[1])**2 + (model.x[2, t]-xf[2])**2 for t in model.tidx if t <= N - 1), sense=pyo.minimize)
+  model.cost = pyo.Objective(expr = sum((model.x[0, t]-xf[0])**2 + (model.x[1, t]-xf[1])**2 + 0*(model.x[2, t]-xf[2])**2
+                                        # + 0.01*((model.u[0, 0] - ur_prev)**2 + (model.u[1, 0] - ul_prev)**2)
+                                        + 0.00001*(model.u[0, t]**2 + model.u[1, t]**2)
+                                        for t in model.tidx if t <= N - 1), sense=pyo.minimize)
 
   # initial conditions
   model.constarint1 = pyo.Constraint(model.xidx, rule=lambda model, i: model.x[i, 0] == x0[i])

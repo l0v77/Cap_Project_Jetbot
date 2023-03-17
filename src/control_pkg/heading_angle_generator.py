@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def heading_angle_generator(optimal_x_y_path, theta_init):
     
@@ -14,7 +15,7 @@ def heading_angle_generator(optimal_x_y_path, theta_init):
     for i in range(np.size(x_path_optimal) - 2):
         delta_y = y_path_optimal[i + 2] - y_path_optimal[i + 1]
         delta_x = x_path_optimal[i + 2] - x_path_optimal[i + 1]
-        theta_path_optimal.append(np.arctan(delta_y/delta_x))
+        theta_path_optimal.append(math.atan2(delta_y, delta_x))
 
     # Terminal State
     theta_f = theta_path_optimal[-1] # The Terminal Heading Angle Euqals to the Angle at n-1 step
