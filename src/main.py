@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import time
 import socket, json
+import matplotlib.pyplot as plt
 
 from vision_pkg.state.initialize import calib_frame
 from vision_pkg.state import state_estimation
@@ -109,6 +110,13 @@ terminal_y = optimal_path[-1, 1]
 ul_prev = 2
 ur_prev = 2
 
+jetbot_x_tot = []
+jetbot_y_tot = []
+jetbot_th_tot = []
+x_des_tot = []
+y_des_tot = []
+th_des_tot = []
+
 while True:
     tic = time.time()
     ret, img = cap.read()
@@ -132,6 +140,16 @@ while True:
             current_state = get_state(calib_corners, calib_ids, board_size)
             # print(current_state)
 
+    # save jetbot states in m and rad
+    jetbot_x_tot.append(current_state[0]*0.001)
+    jetbot_y_tot.append(current_state[1]*0.001)
+    jetbot_th_tot.append(current_state[2]*0.001)
+
+    # save desired state for each loop
+    x_des_tot.append(optimal_path[M+1, 0])
+    y_des_tot.append(optimal_path[M+1, 1])
+    th_des_tot.append(optimal_path[M+1, 2])
+
     # current position are in meters and rads whereas current_state are in mm and rads
     current_position = np.array([current_state[0]*0.001, current_state[1]*0.001, current_state[2]])
 
@@ -152,7 +170,7 @@ while True:
     cv2.circle(result_frame, (int(optimal_path[M+1, 0]*1000), int(board_size[1] - optimal_path[M+1, 1]*1000)), 4, (0, 0, 255), -1)
     # cv2.imshow("debugging window", result_frame)
     resized_result = cv2.resize(result_frame, (500, int(500 / board_size[0] * board_size[1])))
-    cv2.imshow('resized result', resized_result)
+    cv2.imshow('resized debugging window', resized_result)
 
     # print('Max Iteration: ', max_iteration)
     # print('M: ', M)
@@ -188,3 +206,8 @@ while True:
     time_loop = toc - tic
     # print('time_loop: ', time_loop)
 
+plt.plot(x_des_tot, y_des_tot, 'ro', jetbot_x_tot, jetbot_y_tot)
+# plt.legend(['desired state', 'actual state'])
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()

@@ -48,7 +48,7 @@ def generate_map(img):
 
     # dilation to enlarge profiles
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    dilated_mask = cv2.dilate(mask, kernel, iterations=9)
+    dilated_mask = cv2.dilate(mask, kernel, iterations=7)
     cv2.imshow('mask', mask)
     cv2.imshow('dilated', dilated_mask)
     cv2.waitKey(1000)

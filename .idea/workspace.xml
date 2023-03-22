@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="remove contour, use dilate">
+    <list default="true" id="daeea89c-565e-407e-9f98-585158d5e188" name="Changes" comment="debug window v1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control_pkg/cftoc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/control_pkg/cftoc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control_pkg/heading_angle_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/control_pkg/heading_angle_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/path_pkg/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/path_pkg/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vision_pkg/detect_object/Camera.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678477964487</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="debug window v1">
+      <created>1679088934382</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1679088934382</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -180,6 +184,7 @@
     <MESSAGE value="1st success (no obstacle)" />
     <MESSAGE value="success with obstacles" />
     <MESSAGE value="remove contour, use dilate" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove contour, use dilate" />
+    <MESSAGE value="debug window v1" />
+    <option name="LAST_COMMIT_MESSAGE" value="debug window v1" />
   </component>
 </project>
