@@ -13,7 +13,7 @@ from control_pkg.cftoc import solve_cftoc
 from path_pkg.main import A_star_algorithm
 
 # port & UDP
-UDP_IP = "172.20.10.11"
+UDP_IP = "172.20.10.8"
 UDP_PORT = 5005
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # Measure the board size [length, height] in mm
@@ -36,7 +36,7 @@ while True:
     (corners, ids, rejected) = cv2.aruco.detectMarkers(img, arucoDict,
                                                        parameters=arucoParams)
     cv2.imshow("not calibrated", img)
-    key = cv2.waitKey(1000) & 0xFF
+    key = cv2.waitKey(2000) & 0xFF
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
@@ -206,8 +206,9 @@ while True:
     time_loop = toc - tic
     # print('time_loop: ', time_loop)
 
-plt.plot(x_des_tot, y_des_tot, 'ro', jetbot_x_tot, jetbot_y_tot)
-# plt.legend(['desired state', 'actual state'])
-plt.xlabel('x')
-plt.ylabel('y')
+plt.plot(x_des_tot, y_des_tot, 'ro', label='Desired path')
+plt.plot(jetbot_x_tot, jetbot_y_tot, label='Actual path')
+plt.legend()
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
 plt.show()

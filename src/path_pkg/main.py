@@ -37,6 +37,8 @@ def A_star_algorithm(mymap, sx, sy, ex, ey):
     path = []
     width = len(mymap)
     height = len(mymap[0])
+    # print('width: ', width)
+    # print('height: ', height)
     print('Calculating A_star')
 
 
